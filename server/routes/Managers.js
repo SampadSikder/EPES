@@ -11,10 +11,14 @@ router.post("/", async (req, res) => {
 
     const manager = req.body;
     console.log(manager);
-    await Managers.create(manager);
-    res.json("Success");
-
-
+    const ifManagerExist= await Managers.findOne({where:{managerID:manager.managerID}});
+    if(!ifManagerExist){
+        await Managers.create(manager);
+        res.send("Success");
+    }else{
+        res.send("Already exists");
+    }
+    
 });
 
 

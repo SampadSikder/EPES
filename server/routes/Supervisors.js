@@ -11,8 +11,13 @@ router.post("/", async (req, res) => {
 
     const supervisor = req.body;
     console.log(supervisor);
-    await Supervisors.create(supervisor);
-    res.json("Success");
+    const ifSupervisorExist = await Supervisors.findOne({ where: { supervisorID: supervisor.supervisorID } });
+    if (!ifSupervisorExist) {
+        await Supervisors.create(supervisor);
+        res.send("Success");
+    } else {
+        res.send("Already exists");
+    }
 
 });
 
