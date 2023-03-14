@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
     const worker = req.body;
     console.log(worker);
     const ifWorkerExist = await Workers.findOne({ where: { workerID: worker.workerID } });
-    if (!ifWorkerExist) {
+    if (ifWorkerExist) {
         res.send("Worker exist");
     } else {
         await Workers.create(worker);

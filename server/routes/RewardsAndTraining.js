@@ -17,7 +17,7 @@ router.put("/rewards", async (req, res) => {
         const ifExist = await Rewards.findOne({ where: { WorkerWorkerID: workerID } });
         if (!ifExist) {
             console.log("Create");
-            await Rewards.create(ratings);
+            await Rewards.create(rewards);
             res.send("Inserted");
         } else {
             console.log("Update");

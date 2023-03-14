@@ -38,7 +38,7 @@ app.use("/rt", rewardsAndTrainingRouter);
 const startEvaluationRouter = require("./evaluation/evaluate");
 app.use("/startEvaluation", startEvaluationRouter.router);
 
-db.sequelize.sync().then(() => {
+db.sequelize.sync({ alter: true }).then(() => {
     app.listen(5050, () => {
         console.log("Server running");
     });

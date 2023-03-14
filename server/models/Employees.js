@@ -14,6 +14,6 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     });
-    Employees.sync({ alter: true });
+
     return Employees;
 }

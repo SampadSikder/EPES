@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     });
-    Managers.sync({ alter: true });
+    Managers.associate = (models) => {
+        Managers.hasMany(models.CriticalLogs);
+        Managers.hasMany(models.Assignments);
+        Managers.hasMany(models.Ratings);
+    }
     return Managers;
 }

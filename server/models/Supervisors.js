@@ -18,6 +18,6 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     });
-    Supervisors.sync({ alter: true });
+
     return Supervisors;
 }

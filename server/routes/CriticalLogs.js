@@ -7,11 +7,15 @@ router.post("/:id", async (req, res) => {
     const managerID = req.params.id;
     const criticalLog = req.body;
     console.log(criticalLog);
-    criticalLog['ManagerManagerID'] = managerID;
-    criticalLog['WorkerWorkerID'] = criticalLog.workerID;
+    const insertLog = {
+        log: criticalLog.log,
+        type: criticalLog.type,
+        ManagerManagerID: managerID,
+        WorkerWorkerID: criticalLog.workerID
+    }
     const worker = await Workers.findByPk(criticalLog.workerID);
     if (worker) {
-        await CriticalLogs.create(criticalLog);
+        await CriticalLogs.create(insertLog);
         res.send("Inserted");
     } else {
         res.send("worker doesn't exist");

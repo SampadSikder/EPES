@@ -22,6 +22,12 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         },
     });
-    Workers.sync({ alter: true });
+    Workers.associate = (models) => {
+        Workers.hasMany(models.CriticalLogs);
+        Workers.hasOne(models.Assignments);
+        Workers.hasOne(models.Ratings);
+        Workers.hasMany(models.Training);
+        Workers.hasMany(models.Rewards);
+    }
     return Workers;
 }
