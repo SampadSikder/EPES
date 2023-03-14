@@ -21,19 +21,15 @@ const makeLeaderboard = (workers) => {
 router.get("/", async (req, res) => {
     const workers = await Workers.findAll();
     console.log(workers);
-    const workerList = [];
-    for (let i = 0; i < workers.length; i++) {
-        workerList.push(workers[i].dataValues);
-    }
+    const workerList = makeLeaderboard(workers);
     //console.log(workerList);
-    try {
-        workerList.sort(function (a, b) {
-            return a.kpi - b.kpi;
-        });
+    if (workerList) {
         res.json(workerList);
-    } catch (err) {
-        res.send("kpi null");
+    } else {
+        res.send("KPI null");
     }
+
+
 
 });
 
