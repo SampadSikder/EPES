@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import Axios from 'axios';
 import validator from 'validator';
@@ -9,6 +9,27 @@ function AddManagers() {
     const [department, setdepartment] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState(1);
+
+    const [authState, setAuthState] = useState(false);
+
+    const authenticate = (type) => {
+        Axios.get("http://localhost:5050/auth", {
+            headers: {
+                accessToken: localStorage.getItem("accessToken")
+            }
+        }).then((response) => {
+            if (response.data.error) {
+                setAuthState(false);
+            } else {
+                if (response.data.type == type) {
+                    setAuthState(true);
+                }
+            }
+        });
+    }
+    useEffect(() => {
+        authenticate("admin");
+    }, []);
 
     const validate = (value) => {
 
@@ -23,6 +44,8 @@ function AddManagers() {
             console.log(errorMessage)
         }
     }
+
+
 
     const addUser = (event) => {
         event.preventDefault();
@@ -42,55 +65,70 @@ function AddManagers() {
         });
     }
 
+
+
     return (
-        <div> Add Manager:
-            <form>
-                <div className="form-group">
-                    <label>Name</label>
-                    <input type="text" className="form-control" id="name" placeholder="Enter name" required onChange={(event) => {
-                        setName(event.target.value);
-                    }} />
-
-                </div>
-                <div className="form-group">
-                    <label>Employee ID</label>
-                    <input type="number" className="form-control" id="emp_ID" placeholder="Enter Employee ID" required onChange={(event) => {
-                        setID(event.target.value);
-                    }} />
-                </div>
-
-                <div className="form-group">
-                    <label>Department</label>
-                    <input type="text" className="form-control" id="department" placeholder="Enter Department" required onChange={(event) => {
-                        setdepartment(event.target.value);
-                    }} />
-
-                </div>
-                <div className="form-group">
-                    <label>Enter Password:</label>
-                    <input type="password" className="form-control" id="password" placeholder="Enter Password" required onChange={(event) => {
-                        validate(event.target.value);
-                    }} />
-
-                </div>
-                <pre>
-                    {
-                        errorMessage === 0 ? <span style={{
-                            fontWeight: 'bold',
-                            color: 'red',
-                        }}>Password ok<br></br>
-                            <button onClick={(e) => { addUser(e) }}>Add</button></span> :
-                            <span style={{
-                                fontWeight: 'bold',
-                                color: 'red',
-                            }}>Please enter a stronger password (Minimum 8 characters)</span>
-                    }
-                </pre>
 
 
-            </form>
+        <>
+            {
+                authState && (
+                    <div>
 
-        </div>
+                        Add Manager:
+                        <form>
+                            <div className="form-group">
+                                <label>Name</label>
+                                <input type="text" className="form-control" id="name" placeholder="Enter name" required onChange={(event) => {
+                                    setName(event.target.value);
+                                }} />
+
+                            </div>
+                            <div className="form-group">
+                                <label>Employee ID</label>
+                                <input type="number" className="form-control" id="emp_ID" placeholder="Enter Employee ID" required onChange={(event) => {
+                                    setID(event.target.value);
+                                }} />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Department</label>
+                                <input type="text" className="form-control" id="department" placeholder="Enter Department" required onChange={(event) => {
+                                    setdepartment(event.target.value);
+                                }} />
+
+                            </div>
+                            <div className="form-group">
+                                <label>Enter Password:</label>
+                                <input type="password" className="form-control" id="password" placeholder="Enter Password" required onChange={(event) => {
+                                    validate(event.target.value);
+                                }} />
+
+                            </div>
+                            <pre>
+                                {
+                                    errorMessage === 0 ? <span style={{
+                                        fontWeight: 'bold',
+                                        color: 'red',
+                                    }}>Password ok<br></br>
+                                        <button onClick={(e) => { addUser(e) }}>Add</button></span> :
+                                        <span style={{
+                                            fontWeight: 'bold',
+                                            color: 'red',
+                                        }}>Please enter a stronger password (Minimum 8 characters)</span>
+                                }
+                            </pre>
+
+
+                        </form>
+
+                    </div>
+                )
+            }
+
+        </>
+
+
     )
 }
 

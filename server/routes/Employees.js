@@ -55,7 +55,8 @@ router.post("/login", async (req, res) => {
                 res.json({ error: "Wrong employeeID or password" });
             } else {
                 const accessToken = sign({
-                    employeeID: employeeID
+                    id: employeeID,
+                    type: id.type
                 }, "tokenTry");
                 res.json(accessToken);
             }

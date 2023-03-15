@@ -41,6 +41,9 @@ app.use("/startEvaluation", startEvaluationRouter.router);
 const attendanceRouter = require("./routes/Attendance");
 app.use("/attendance", attendanceRouter);
 
+const authenticator = require("./routes/Auth");
+app.use("/auth", authenticator);
+
 db.sequelize.sync({ alter: true }).then(() => {
     app.listen(5050, () => {
         console.log("Server running");

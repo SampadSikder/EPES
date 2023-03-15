@@ -22,7 +22,7 @@ function App() {
           <Route path="/addManager" element={<AddManagers />} />
           <Route path="/addSupervisor" element={<AddSupervisors />} />
           <Route path="/addWorker" element={<AddWorkers />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/managerDashboard/:id" element={<ManagerDashboard />} />
           <Route path="/supervisorDashboard/:id" element={<SupervisorDashboard />} />
           <Route path="/workerList" element={<WorkerList />} />

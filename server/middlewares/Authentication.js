@@ -2,11 +2,13 @@ const { verify } = require("jsonwebtoken");
 
 const validateToken = (req, res, next) => {
     const accessToken = req.header("accessToken");
+    console.log(accessToken);
     if (!accessToken) return res.json({ error: "User not logged in" });
 
     try {
         const validToken = verify(accessToken, "tokenTry");
-
+        const user = validToken;
+        req.user = user;
         if (validToken) {
             return next();
         }
@@ -15,3 +17,5 @@ const validateToken = (req, res, next) => {
         return res.json({ error: err });
     }
 }
+
+module.exports = validateToken;
