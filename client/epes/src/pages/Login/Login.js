@@ -16,15 +16,19 @@ function Login() {
                 password: password,
 
             }).then((response) => {
-                if (response.data == "Wrong employeeID or password") {
-                    alert(response.data);
-                } else {
-                    if (response.data.type == "manager") {
-                        navigate(`/managerDashboard/${response.data.id}`);
-                    } else {
-                        navigate(`/supervisorDashboard/${response.data.id}`);
-                    }
+                // if (response.data == "Wrong employeeID or password") {
+                //     alert(response.data);
+                // } else {
+                //     if (response.data.type == "manager") {
+                //         navigate(`/managerDashboard/${response.data.id}`);
+                //     } else {
+                //         navigate(`/supervisorDashboard/${response.data.id}`);
+                //     }
 
+                // }
+                if (response.data.error) alert(response.data.error);
+                else {
+                    sessionStorage.setItem("accessToken", response.data);
                 }
 
             });

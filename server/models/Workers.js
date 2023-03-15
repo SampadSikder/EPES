@@ -23,11 +23,14 @@ module.exports = (sequelize, DataTypes) => {
         },
     });
     Workers.associate = (models) => {
-        Workers.hasMany(models.CriticalLogs);
+        Workers.hasMany(models.CriticalLogs, {
+            onDelete: "cascade",
+        });
         Workers.hasOne(models.Assignments);
         Workers.hasOne(models.Ratings);
         Workers.hasMany(models.Training);
         Workers.hasMany(models.Rewards);
+        Workers.hasOne(models.Attendance);
     }
     return Workers;
 }

@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 const { Workers } = require("../models");
 
+
+
 router.get("/", async (req, res) => {
-    const listOfWorkers = await Supervisors.findAll();
+    const listOfWorkers = await Workers.findAll();
     res.send(listOfWorkers);
 });
 

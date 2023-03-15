@@ -1,7 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const { Employees } = require("../models");
+const { Workers } = require("../models");
+const { Supervisors } = require("../models");
+const { Managers } = require("../models");
 const bcrypt = require("bcrypt");
+const { sign } = require("jsonwebtoken");
+
 
 router.post("/", async (req, res) => {
     const { employeeID, password, type } = req.body;
@@ -16,11 +21,28 @@ router.post("/", async (req, res) => {
                 type: type,
             });
             res.json("Completed");
-        })
+        });
     }
 
 
 });
+
+router.delete("/", async (req, res) => {
+    const employeeID = req.body.employeeID;
+
+    const ifEmployeeExist = await Employees.findOne({ where: { employeeID: employeeID } });
+
+    if (ifEmployeeExist) {
+        await Employees.destroy({ where: { employeeID: employeeID } });
+        await Workers.destroy({ where: { workerID: employeeID } });
+        await Supervisors.destroy({ where: { supervisorID: employeeID } });
+        await Managers.destroy({ where: { managerID: employeeID } });
+        res.send("deleted");
+    } else {
+        res.send("Not found");
+    }
+
+})
 
 router.post("/login", async (req, res) => {
     const { employeeID, password } = req.body;
@@ -30,13 +52,16 @@ router.post("/login", async (req, res) => {
     if (id) {
         bcrypt.compare(password, id.password).then((match) => {
             if (!match) {
-                res.json("Wrong employeeID or password");
+                res.json({ error: "Wrong employeeID or password" });
             } else {
-                res.json("Logged in");
+                const accessToken = sign({
+                    employeeID: employeeID
+                }, "tokenTry");
+                res.json(accessToken);
             }
         });
     } else {
-        res.json("Wrong employeeID or password");
+        res.json({ error: "Wrong employeeID or password" });
     }
 
 

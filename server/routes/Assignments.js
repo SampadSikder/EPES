@@ -26,7 +26,7 @@ router.put("/:id", async (req, res) => {
     }
 });
 router.get("/:id", async (req, res) => {
-    const assignmentList = await Assignments.findOne({ where: { WorkerWorkerID: req.params.body } });
+    const assignmentList = await Assignments.findOne({ where: { WorkerWorkerID: req.params.id } });
     res.json(assignmentList);
 });
 

@@ -38,6 +38,9 @@ app.use("/rt", rewardsAndTrainingRouter);
 const startEvaluationRouter = require("./evaluation/evaluate");
 app.use("/startEvaluation", startEvaluationRouter.router);
 
+const attendanceRouter = require("./routes/Attendance");
+app.use("/attendance", attendanceRouter);
+
 db.sequelize.sync({ alter: true }).then(() => {
     app.listen(5050, () => {
         console.log("Server running");
