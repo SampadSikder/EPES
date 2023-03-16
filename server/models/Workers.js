@@ -21,6 +21,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true
         },
+        workExperience: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        picture: {
+            type: DataTypes.STRING,
+            allowNull: true
+        }
     });
     Workers.associate = (models) => {
         Workers.hasMany(models.CriticalLogs, {

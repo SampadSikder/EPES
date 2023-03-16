@@ -6,6 +6,10 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
+//public folder to serve public files
+app.use(express.static("public"));
+
+
 const db = require("./models");
 
 const managerRouter = require("./routes/Managers");

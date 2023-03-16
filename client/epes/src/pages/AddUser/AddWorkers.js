@@ -7,7 +7,10 @@ function AddWorkers() {
     const [workerName, setName] = useState("");
     const [workerID, setID] = useState("");
     const [specialization, setspecialization] = useState("");
+    const [workExperience, setWorkExperience] = useState("");
+    const [fileDetails, setFileDetails] = useState();
     const [authState, setAuthState] = useState(false);
+
     const authenticate = (type) => {
         Axios.get("http://localhost:5050/auth", {
             headers: {
@@ -23,17 +26,30 @@ function AddWorkers() {
             }
         });
     }
+
+    const onChangePicture = (e) => {
+        console.log(e.target.files[0]);
+        setFileDetails(e.target.files[0]);
+    }
+
     useEffect(() => {
         authenticate("admin");
     }, []);
 
     const addUser = (e) => {
         e.preventDefault();
+        const config = {
+            headers: {
+                "Content-type": "multipart/form-data"
+            }
+        }
         Axios.post('http://localhost:5050/workers', {
             workerName: workerName,
             workerID: workerID,
             specialization: specialization,
-        }).then((response) => {
+            workExperience: workExperience,
+            image: fileDetails
+        }, config).then((response) => {
             alert(response.data);
         });
     }
@@ -45,7 +61,7 @@ function AddWorkers() {
                 authState && (
 
                     <div> Add worker:
-                        <form>
+                        <form encType="multipart/form-data">
                             <div className="form-group">
                                 <label>Name</label>
                                 <input type="text" className="form-control" id="name" placeholder="Enter name" required onChange={(event) => {
@@ -66,6 +82,22 @@ function AddWorkers() {
                                 <input type="text" className="form-control" id="department" placeholder="Enter Specialization" required onChange={(event) => {
                                     setspecialization(event.target.value);
                                 }} />
+                            </div>
+                            <div className="form-group">
+                                <label>Enter Work Experience:</label>
+                                <input type="text" className="form-control" id="department" placeholder="Enter Specialization" required onChange={(event) => {
+                                    setWorkExperience(event.target.value);
+                                }} />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="photo">Upload photo:</label>
+                                <div class="col-sm-2">
+                                    <input type="file" class="form-control" id="photo" name="photo" onChange={(event) => {
+                                        onChangePicture(event);
+                                    }
+
+                                    }></input>
+                                </div>
                             </div>
                             <button onClick={(e) => { addUser(e) }}>Add</button>
                         </form>

@@ -7,6 +7,7 @@ import Login from "./pages/Login/Login";
 import ManagerDashboard from "./pages/Dashboard/ManagerDashboard";
 import SupervisorDashboard from "./pages/Dashboard/SupervisorDashboard";
 import WorkerList from "./pages/Lists/WorkerList";
+import WorkerProfile from "./pages/Dashboard/WorkerProfile";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/managerDashboard/:id" element={<ManagerDashboard />} />
           <Route path="/supervisorDashboard/:id" element={<SupervisorDashboard />} />
           <Route path="/workerList" element={<WorkerList />} />
+          <Route path="/workers/:id" element={<WorkerProfile />} />
         </Routes>
       </BrowserRouter>
     </div>
