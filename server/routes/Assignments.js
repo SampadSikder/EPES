@@ -18,6 +18,7 @@ router.put("/:id", async (req, res) => {
         } else {
             await Assignments.update({ ManagerManagerID: workplace.ManagerManagerId }, { where: { WorkerWorkerID: workplace.workerID } });
             await Assignments.update({ assignedWorkplace: workplace.assignedWorkplace }, { where: { WorkerWorkerID: workplace.workerID } });
+            await Workers.update({ assignedWorkplace: workplace.assignedWorkplace }, { where: { workerID: workplace.workerID } })
             res.send("Updated");
         }
 
@@ -25,8 +26,8 @@ router.put("/:id", async (req, res) => {
         res.send("worker doesn't exist");
     }
 });
-router.get("/:id", async (req, res) => {
-    const assignmentList = await Assignments.findOne({ where: { WorkerWorkerID: req.params.id } });
+router.get("/", async (req, res) => {
+    const assignmentList = await Assignments.findAll();
     res.json(assignmentList);
 });
 

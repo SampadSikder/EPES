@@ -6,7 +6,10 @@ const { Workers } = require("../models");
 const makeLeaderboard = (workers) => {
     const workerList = [];
     for (let i = 0; i < workers.length; i++) {
-        workerList.push(workers[i].dataValues);
+        if (workers[i].dataValues.kpi != null) {
+            workerList.push(workers[i].dataValues);
+        }
+
     }
     try {
         workerList.sort(function (a, b) {

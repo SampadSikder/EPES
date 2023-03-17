@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DOUBLE,
             allowNull: true
         },
-        assignedWork: {
+        assignedWorkplace: {
             type: DataTypes.STRING,
             allowNull: true
         },
