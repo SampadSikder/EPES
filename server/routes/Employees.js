@@ -68,5 +68,23 @@ router.post("/login", async (req, res) => {
 
 })
 
+router.put("/editpassword", async (req, res) => {
+    const { employeeID, password } = req.body;
+    const ifEmployeeExist = await Employees.findOne({ where: { employeeID: employeeID } });
+    if (ifEmployeeExist) {
+        bcrypt.hash(password, 10).then((hash) => {
+            Employees.update({
+                password: hash,
+            }, { where: { employeeID: employeeID } });
+            res.json("Completed");
+        });
+
+    } else {
+        res.send("Failed");
+    }
+
+
+});
+
 
 module.exports = router;
