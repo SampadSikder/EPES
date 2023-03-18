@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     const Ratings = sequelize.define("Ratings", {
         rating: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.DOUBLE,
             allowNull: true
         }
     });

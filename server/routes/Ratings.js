@@ -9,7 +9,7 @@ router.put("/:id", async (req, res) => {
     const rating = req.body.rating;
     const workerID = req.body.workerID;
     const kpi = totalEvaluation(rating)
-    console.log(workerID);
+    //console.log(workerID);
     const ratings = {
         ManagerManagerID: managerID,
         rating: rating,
@@ -21,10 +21,12 @@ router.put("/:id", async (req, res) => {
         if (!ifExist) {
             console.log("Create");
             await Ratings.create(ratings);
+            await Workers.update({ kpi: ratings.rating }, { where: { workerID: workerID } });
             res.send("Inserted");
         } else {
             console.log("Update");
             await Ratings.update({ rating: ratings.rating, ManagerManagerID: ratings.ManagerManagerID }, { where: { WorkerWorkerID: ratings.WorkerWorkerID } });
+            await Workers.update({ kpi: ratings.rating }, { where: { workerID: workerID } });
             res.send("Inserted");
         }
 
@@ -33,7 +35,6 @@ router.put("/:id", async (req, res) => {
 
     }
 
-    await Workers.update({ kpi: kpi }, { where: { workerId: workerID } });
 
 });
 
