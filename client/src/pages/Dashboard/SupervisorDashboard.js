@@ -55,59 +55,58 @@ function SupervisorDashboard() {
 
                     <div className="container">
 
-                        <div className="row">
 
-                            <div className="col-sm-8 mb-3">
-                                <Card>
-                                    <Card.Header>
-                                        Employee Leaderboard
-                                    </Card.Header>
-                                    <Card.Body>
-                                        <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/leaderboard")}>Leaderboard</button>
-                                    </Card.Body>
-                                </Card>
 
-                            </div>
-                            <div className="col-sm-8 mb-3">
-                                <Card>
-                                    <Card.Header>
-                                        Confirm Worker Assignment
-                                    </Card.Header>
-                                    <Card.Body>
-                                        <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/confirmassignment/${id}`)}>Confirm</button>
-                                    </Card.Body>
-                                </Card>
+                        <div className="col-sm">
+                            <Card border='dark' className='mt-3'>
+                                <Card.Header>
+                                    Employee Leaderboard
+                                </Card.Header>
+                                <Card.Body>
+                                    <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/leaderboard")}>Leaderboard</button>
+                                </Card.Body>
+                            </Card>
 
-                            </div>
-                            <div className="col-sm-8 mb-3">
-                                <Card>
-                                    <Card.Header>
-                                        Give Attendance
-                                    </Card.Header>
-                                    <Card.Body>
-                                        <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/WorkerAttendance/${id}`)}>Worker Attendance</button>
-                                    </Card.Body>
-                                </Card>
-
-                            </div>
-                            <div className="col-sm-8 mb-3">
-                                <Card>
-                                    <Card.Header>
-                                        View List of Workers
-                                    </Card.Header>
-                                    <Card.Body>
-                                        <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/WorkerList")}>List of Workers</button>
-                                    </Card.Body>
-                                </Card>
-
-                            </div>
-                            <div className="col-sm-8 mb-3">
-
-                            </div>
                         </div>
-                    </div>
 
+                        <div className="col-sm">
+                            <Card Card border='success' className='mt-3'>
+                                <Card.Header>
+                                    Confirm Worker Assignment
+                                </Card.Header>
+                                <Card.Body>
+                                    <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/confirmassignment/${id}`)}>Confirm</button>
+                                </Card.Body>
+                            </Card>
+
+                        </div>
+                        <div className="col-sm">
+                            <Card border='info' className='mt-3'>
+                                <Card.Header>
+                                    Give Attendance
+                                </Card.Header>
+                                <Card.Body>
+                                    <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/WorkerAttendance/${id}`)}>Worker Attendance</button>
+                                </Card.Body>
+                            </Card>
+
+                        </div>
+                        <div className="col-sm">
+                            <Card border='warning' className='mt-3'>
+                                <Card.Header>
+                                    View List of Workers
+                                </Card.Header>
+                                <Card.Body>
+                                    <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/WorkerList")}>List of Workers</button>
+                                </Card.Body>
+                            </Card>
+
+                        </div>
+
+                    </div>
                 </div>
+
+
             )
             }
 

@@ -50,7 +50,7 @@ function ManagerDashboard() {
               <div className="row">
                 <div className="col-sm">
 
-                  <Card>
+                  <Card border='dark' className='mt-3'>
                     <Card.Header>
                       Employee Leaderboard
 
@@ -66,7 +66,7 @@ function ManagerDashboard() {
 
 
 
-                  <Card>
+                  <Card border='primary' className='mt-3'>
                     <Card.Header>
                       View Worker Assignment
                     </Card.Header>
@@ -81,7 +81,7 @@ function ManagerDashboard() {
                 </div>
 
                 <div className="col-sm">
-                  <Card>
+                  <Card border='info' className='mt-3'>
                     <Card.Header>
                       View List of Workers
 
@@ -94,7 +94,7 @@ function ManagerDashboard() {
                       <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/WorkerList")}>List of Workers</button>
                     </Card.Body>
                   </Card>
-                  <Card>
+                  <Card border='success' className='mt-3'>
                     <Card.Header>
                       Employee Evaluation
 

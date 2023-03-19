@@ -1,9 +1,10 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import NavbarSupervisor from '../../components/NavbarSupervisor';
 import image from './images.png';
 import './WorkerProfile.css';
+import Card from 'react-bootstrap/Card'
 
 function WorkerProfile() {
   const { id } = useParams();
@@ -28,22 +29,56 @@ function WorkerProfile() {
   const imageAltText = workerInformation ? `Picture of ${workerInformation.name}` : "Default image";
 
   return (
-    <div className="worker-profile-container">
+
+
+    <div className="container mt-5" >
       <div className="worker-profile-header">
         <img src={imageUrl} alt={imageAltText} />
         {workerInformation && (
           <>
-            <h1>{workerInformation.workerName}</h1>
-            <h2>ID</h2>
-            <p>{workerInformation.workerID}</p>
-            <h2>Specialization</h2>
-            <p>{workerInformation.specialization}</p>
-            <h2>KPI score</h2>
-            <p>{workerInformation.kpi}</p>
+            <Card border='info' className='mt-3'>
+              <Card.Header>
+                Employee Name
+              </Card.Header>
+              <Card.Body>
+                <h1>{workerInformation.workerName}</h1>
+
+              </Card.Body>
+            </Card>
+            <Card border='secondary' className='mt-3'>
+              <Card.Header>
+                Employee ID
+              </Card.Header>
+              <Card.Body>
+
+                <p>{workerInformation.workerID}</p>
+              </Card.Body>
+
+            </Card>
+            <Card border='primary' className='mt-3'>
+              <Card.Header>
+
+                <h2>Specialization</h2>
+              </Card.Header>
+              <Card.Body>
+
+                <p>{workerInformation.specialization}</p>
+              </Card.Body>
+            </Card>
+            <Card border='dark' className='mt-3'>
+              <Card.Header>
+                KPI Score
+              </Card.Header>
+              <Card.Body>
+
+                <p>{workerInformation.kpi}</p>
+              </Card.Body>
+            </Card>
           </>
         )}
       </div>
     </div>
+
   );
 }
 
