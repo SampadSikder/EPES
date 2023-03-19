@@ -12,10 +12,7 @@ function Navbar({ managerInformation }) {
     setToggleSideBar(!toggleSidebar);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    window.location.reload();
-  };
+
 
   return (
     <div>
@@ -38,7 +35,7 @@ function Navbar({ managerInformation }) {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
-              <a className="nav-link" href="" onClick={setSideBar}>
+              <a className="nav-link" href="#" onClick={setSideBar}>
                 Information <span className="sr-only">(current)</span>
               </a>
             </li>
@@ -50,7 +47,7 @@ function Navbar({ managerInformation }) {
           </ul>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-            <a className="nav-link" href="http://localhost:3000/login">
+              <a className="nav-link" href="http://localhost:3000/login">
                 Logout
               </a>
             </li>

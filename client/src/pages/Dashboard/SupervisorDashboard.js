@@ -74,7 +74,7 @@ function SupervisorDashboard() {
                                         Confirm Worker Assignment
                                     </Card.Header>
                                     <Card.Body>
-                                        <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }}>Confirm</button>
+                                        <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/ConfirmAssignment/${id}`)}>Confirm</button>
                                     </Card.Body>
                                 </Card>
 

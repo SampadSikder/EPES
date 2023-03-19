@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 function WorkerAssignment({ val }) {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [assignment, setAssignment] = useState(null);
+  const [assignment, setAssignment] = useState("");
   const [workers, setWorkers] = useState([]);
 
   useEffect(() => {
@@ -27,12 +27,11 @@ function WorkerAssignment({ val }) {
     }).then((response) => {
       try {
         console.log(response.data);
-
+        window.location.reload();
       } catch (err) {
         console.log(err);
       }
-    });
-    window.location.reload();
+    })
   }
 
   const [authState, setAuthState] = useState(false);

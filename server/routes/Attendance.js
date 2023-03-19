@@ -11,6 +11,7 @@ router.put("/", async (req, res) => {
             const ifExist = await Attendance.findOne({ where: { WorkerWorkerID: workerID } });
             if (ifExist) {
                 await Attendance.update({ present: present }, { where: { WorkerWorkerID: workerID } });
+
             } else {
                 await Attendance.create({ WorkerWorkerID: workerID, present: present });
             }
@@ -32,7 +33,7 @@ router.get("/", async (req, res) => {
             presentWorkers.push(worker);
         }
     }
-    //console.log(presentWorkers);
+    console.log(presentWorkers);
     res.json(presentWorkers);
 });
 

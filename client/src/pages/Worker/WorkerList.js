@@ -65,7 +65,7 @@ function WorkerList() {
                         <th>WorkerName</th>
                         <th>specialization</th>
                         <th>KPI</th>
-                        <th>Assigned workplace</th>
+                        <th>Last Assigned workplace</th>
                         <th>Details</th>
                     </thead>
                     <tbody>

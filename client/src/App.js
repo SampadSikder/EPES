@@ -16,6 +16,7 @@ import Home from "./pages/Home";
 import ChangePassword from "./pages/ChangePassword";
 import WorkerProfile from "./pages/Dashboard/WorkerProfile";
 import AdminDashboard from "./pages/Dashboard/AdminDashboard";
+import ConfirmAssignment from "./pages/Worker/ConfirmAssignment";
 function App() {
   return (
     <div className="App">
@@ -43,6 +44,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />
           <Route path="/WorkerProfile/:id" element={<WorkerProfile />} />
+          <Route path="/confirmassignment/:id" element={<ConfirmAssignment />} />
         </Routes>
       </BrowserRouter>
     </div>
