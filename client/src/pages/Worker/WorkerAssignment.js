@@ -46,7 +46,7 @@ function WorkerAssignment({ val }) {
       if (response.data.error) {
         setAuthState(false);
       } else {
-        if (response.data.type === type) {
+        if (response.data.type === type && response.data.id === id) {
           setAuthState(true)
         }
       }

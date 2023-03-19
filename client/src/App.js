@@ -38,7 +38,7 @@ function App() {
           <Route path="/WorkerList" element={<WorkerList />} />
           <Route path="/workerEvaluation/:id" element={<WorkerEvaluation />} />
           <Route path="/EvaluationPage/:managerID/:workerID" element={<EvaluationPage />} />
-          <Route path="/WorkerAttendance" element={<WorkerAttendance />} />
+          <Route path="/WorkerAttendance/:id" element={<WorkerAttendance />} />
           <Route path="/WorkerAssignment/:id" element={<WorkerAssignment />} />
           <Route path="/" element={<Home />} />
           <Route path="/ChangePassword" element={<ChangePassword />} />

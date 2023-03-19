@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Input } from 'reactstrap';
 import NavbarSupervisor from '../../components/NavbarSupervisor';
 import Axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function WorkerAttendance() {
+  let { id } = useParams();
   const [workers, setWorkers] = useState([]);
   const navigate = useNavigate();
   const handleOnChangeAgreement = (workerID, isChecked) => {
@@ -27,12 +28,12 @@ function WorkerAttendance() {
 
     Axios.put("http://localhost:5050/attendance", attendanceList)
       .then(response => {
-        console.log(response.data);
+        alert("Done");
       })
       .catch(error => {
         console.log(error);
       });
-    //window.location.reload()
+    window.location.reload()
   };
 
   useEffect(() => {
@@ -52,7 +53,7 @@ function WorkerAttendance() {
       if (response.data.error) {
         setAuthState(false);
       } else {
-        if (response.data.type === type) {
+        if (response.data.type === type && response.data.id === id) {
           setAuthState(true)
         }
       }

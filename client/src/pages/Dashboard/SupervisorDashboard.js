@@ -8,6 +8,7 @@ import NavbarSupervisor from '../../components/NavbarSupervisor';
 import Leaderboard from '../Leaderboard';
 import { useNavigate } from 'react-router-dom';
 import WorkerAttendance from '../Worker/WorkerAttendance';
+import Card from 'react-bootstrap/Card';
 
 function SupervisorDashboard() {
     let { id } = useParams();
@@ -25,7 +26,7 @@ function SupervisorDashboard() {
             if (response.data.error) {
                 setAuthState(false);
             } else {
-                if (response.data.type === type) {
+                if (response.data.type === type && response.data.id === id) {
                     setAuthState(true)
                 }
             }
@@ -57,16 +58,48 @@ function SupervisorDashboard() {
                         <div className="row">
 
                             <div className="col-sm-8 mb-3">
-                                <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/leaderboard")}>Leaderboard</button>
+                                <Card>
+                                    <Card.Header>
+                                        Employee Leaderboard
+                                    </Card.Header>
+                                    <Card.Body>
+                                        <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/leaderboard")}>Leaderboard</button>
+                                    </Card.Body>
+                                </Card>
+
                             </div>
                             <div className="col-sm-8 mb-3">
-                                <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }}>Confirm Worker Assignment</button>
+                                <Card>
+                                    <Card.Header>
+                                        Confirm Worker Assignment
+                                    </Card.Header>
+                                    <Card.Body>
+                                        <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }}>Confirm</button>
+                                    </Card.Body>
+                                </Card>
+
                             </div>
                             <div className="col-sm-8 mb-3">
-                                <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/WorkerAttendance")}>Worker Attendance</button>
+                                <Card>
+                                    <Card.Header>
+                                        Give Attendance
+                                    </Card.Header>
+                                    <Card.Body>
+                                        <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/WorkerAttendance/${id}`)}>Worker Attendance</button>
+                                    </Card.Body>
+                                </Card>
+
                             </div>
                             <div className="col-sm-8 mb-3">
-                                <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/WorkerList")}>List of Workers</button>
+                                <Card>
+                                    <Card.Header>
+                                        View List of Workers
+                                    </Card.Header>
+                                    <Card.Body>
+                                        <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/WorkerList")}>List of Workers</button>
+                                    </Card.Body>
+                                </Card>
+
                             </div>
                             <div className="col-sm-8 mb-3">
 

@@ -38,6 +38,8 @@ function WorkerProfile() {
             <p>{workerInformation.workerID}</p>
             <h2>Specialization</h2>
             <p>{workerInformation.specialization}</p>
+            <h2>KPI score</h2>
+            <p>{workerInformation.kpi}</p>
           </>
         )}
       </div>

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import Navbar from '../../components/Navbar';
-
+import Card from 'react-bootstrap/Card';
 
 function ManagerDashboard() {
   const { id } = useParams();
@@ -21,7 +21,7 @@ function ManagerDashboard() {
       if (response.data.error) {
         setAuthState(false);
       } else {
-        if (response.data.type === type) {
+        if (response.data.type === type && response.data.id === id) {
           setAuthState(true)
         }
       }
@@ -48,16 +48,65 @@ function ManagerDashboard() {
 
             <div className="container">
               <div className="row">
-                <div className="col-sm-8 mb-3">
-                  <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/leaderboard")}>Leaderboard</button>
-                </div>
-                <div className="col-sm-8 mb-3">
-                  <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/WorkerAssignment/${id}`)}>Worker Assignment</button>
+                <div className="col-sm">
+
+                  <Card>
+                    <Card.Header>
+                      Employee Leaderboard
+
+                    </Card.Header>
+                    <Card.Body>
+                      <Card.Title>
+
+                      </Card.Title>
+                      <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/leaderboard")}>Leaderboard</button>
+                    </Card.Body>
+                  </Card>
+
+
+
+
+                  <Card>
+                    <Card.Header>
+                      View Worker Assignment
+                    </Card.Header>
+                    <Card.Body>
+                      <Card.Title>
+
+                      </Card.Title>
+
+                      <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/WorkerAssignment/${id}`)}>Worker Assignment</button>
+                    </Card.Body>
+                  </Card>
                 </div>
 
-                <div className="col-sm-8 mb-3">
-                  <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/WorkerList")}>List of Workers</button>
-                  <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/workerEvaluation/${id}`)}>Employee Evaluation</button>
+                <div className="col-sm">
+                  <Card>
+                    <Card.Header>
+                      View List of Workers
+
+                    </Card.Header>
+                    <Card.Body>
+                      <Card.Title>
+
+                      </Card.Title>
+
+                      <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo("/WorkerList")}>List of Workers</button>
+                    </Card.Body>
+                  </Card>
+                  <Card>
+                    <Card.Header>
+                      Employee Evaluation
+
+                    </Card.Header>
+                    <Card.Body>
+                      <Card.Title>
+
+                      </Card.Title>
+                      <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/workerEvaluation/${id}`)}>Employee Evaluation</button>
+                    </Card.Body>
+                  </Card>
+
                 </div>
               </div>
             </div>
