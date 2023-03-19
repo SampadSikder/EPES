@@ -27,12 +27,13 @@ function ConfirmAssignment({ val }) {
         }).then((response) => {
             try {
                 console.log(response.data);
+                window.location.reload(true);
 
             } catch (err) {
                 console.log(err);
             }
         });
-        window.location.reload();
+
     }
 
     const [authState, setAuthState] = useState(false);

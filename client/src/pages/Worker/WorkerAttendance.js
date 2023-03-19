@@ -29,11 +29,12 @@ function WorkerAttendance() {
     Axios.put("http://localhost:5050/attendance", attendanceList)
       .then(response => {
         alert("Done");
+        window.location.reload(true);
       })
       .catch(error => {
         console.log(error);
       });
-    window.location.reload()
+
   };
 
   useEffect(() => {

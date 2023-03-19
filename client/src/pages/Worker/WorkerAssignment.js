@@ -27,7 +27,7 @@ function WorkerAssignment({ val }) {
     }).then((response) => {
       try {
         console.log(response.data);
-        window.location.reload();
+        window.location.reload(true);
       } catch (err) {
         console.log(err);
       }

@@ -48,7 +48,7 @@ function EvaluationPage() {
     }).then((response) => {
       if (response.data.error) console.log(response.data.error);
       else {
-        window.location.reload();
+        window.location.reload(true);
       }
     })
   }
