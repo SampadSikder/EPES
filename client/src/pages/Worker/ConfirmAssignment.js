@@ -123,11 +123,13 @@ function ConfirmAssignment({ val }) {
                                         <td>{worker.workerID}</td>
                                         <td>{worker.workerName}</td>
                                         <td>{worker.assignedWorkplace}</td>
+                                        <td>  <button className="btn btn-dark mt-2" onClick={(e) => { confirmAssignment(e) }}>Start Monitoring</button></td>
+                                        <td>  <button className="btn btn-warning mt-2" onClick={(e) => { confirmAssignment(e) }}>Cancel Monitoring</button></td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
-                        <button className="btn btn-block mt-2" onClick={(e) => { confirmAssignment(e) }}>Confirm</button>
+
                     </div>
                 )
             }
