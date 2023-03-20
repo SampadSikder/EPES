@@ -35,14 +35,16 @@ router.put("/training", async (req, res) => {
     const workerID = req.body.workerID;
     console.log(workerID);
     const training = {
+        type: req.body.type,
         WorkerWorkerID: workerID
     }
     const worker = await Workers.findByPk(workerID);
     if (worker) {
+
         const ifExist = await Training.findOne({ where: { WorkerWorkerID: workerID } });
+        await Training.create(training);
         if (!ifExist) {
             console.log("Create");
-            await Training.create(training);
             res.send("Inserted");
         } else {
             res.send("Already training");
@@ -54,6 +56,21 @@ router.put("/training", async (req, res) => {
     }
 });
 
+router.put("/deltraining", async (req, res) => {
+    const workerID = req.body.workerID;
+    const training = {
+        type: req.body.type,
+        WorkerWorkerID: workerID
+    }
+    await Training.destroy({
+        where: {
+            type: req.body.type,
+            WorkerWorkerID: workerID
+        }
+    })
+    res.send("success");
+});
+
 router.get("/rewards", async (req, res) => {
     const rewardList = await Rewards.findAll();
     res.json(rewardList);
@@ -61,6 +78,17 @@ router.get("/rewards", async (req, res) => {
 
 router.get("/training", async (req, res) => {
     const trainingList = await Training.findAll();
+    res.json(trainingList);
+});
+
+router.get("/rewards/:id", async (req, res) => {
+    const id = req.params.id;
+    const rewardList = await Rewards.findAll({ where: { WorkerWorkerID: id } });
+    res.json(rewardList);
+});
+
+router.get("/training/:id", async (req, res) => {
+    const trainingList = await Training.findAll({ where: { WorkerWorkerID: req.params.id } });
     res.json(trainingList);
 });
 
