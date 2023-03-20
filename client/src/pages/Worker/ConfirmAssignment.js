@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-
+import { Button } from 'reactstrap';
 function ConfirmAssignment({ val }) {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -123,8 +123,9 @@ function ConfirmAssignment({ val }) {
                                         <td>{worker.workerID}</td>
                                         <td>{worker.workerName}</td>
                                         <td>{worker.assignedWorkplace}</td>
-                                        <td>  <button className="btn btn-dark mt-2" onClick={(e) => { confirmAssignment(e) }}>Start Monitoring</button></td>
-                                        <td>  <button className="btn btn-warning mt-2" onClick={(e) => { confirmAssignment(e) }}>Cancel Monitoring</button></td>
+                                        <td>  <Button style={{ backgroundColor: "green" }} onClick={(e) => { confirmAssignment(e) }}>Start Monitoring</Button></td>
+                                        <td>  <Button style={{ backgroundColor: "red" }} onClick={(e) => { confirmAssignment(e) }}>Cancel Monitoring</Button></td>
+
                                     </tr>
                                 ))}
                             </tbody>
