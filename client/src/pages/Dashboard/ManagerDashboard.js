@@ -117,6 +117,17 @@ function ManagerDashboard() {
                       <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} >Go to monitoring</button>
                     </Card.Body>
                   </Card>
+                  <Card border='dark' className='mt-3'>
+                    <Card.Header>
+                      Rewards and Training
+                    </Card.Header>
+                    <Card.Body>
+                      <Card.Title>
+
+                      </Card.Title>
+                      <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/rewardsandtraining/${id}`)}>Assign Rewards or Training</button>
+                    </Card.Body>
+                  </Card>
                 </div>
               </div>
             </div>
