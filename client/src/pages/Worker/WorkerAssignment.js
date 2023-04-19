@@ -6,7 +6,9 @@ function WorkerAssignment({ val }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [assignment, setAssignment] = useState("");
+  const [assignments, setAssignments] = useState({});
   const [workers, setWorkers] = useState([]);
+  const [workplaceList, setWorkplaceList] = useState([]);
 
   useEffect(() => {
     Axios.get("http://localhost:5050/attendance").then((response) => {
@@ -17,22 +19,46 @@ function WorkerAssignment({ val }) {
         setWorkers("No workers");
       }
     });
+
+    Axios.get("http://localhost:5050/assign").then((response) => {
+      try {
+        console.log(response.data);
+        setWorkplaceList(response.data);
+      } catch (err) {
+        setWorkplaceList("No workers");
+      }
+    });
   }, [val]);
 
 
-  const post = (workerID) => {
+  const post = (workerID, assignment) => {
     Axios.put(`http://localhost:5050/assign/${id}`, {
       workerID: workerID,
-      assignedWorkplace: assignment
-    }).then((response) => {
-      try {
+      assignedWorkplace: assignment,
+    })
+      .then((response) => {
         console.log(response.data);
         window.location.reload(true);
-      } catch (err) {
-        console.log(err);
-      }
-    })
-  }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handlePost = (worker) => {
+    console.log(assignments);
+    // Iterate over the workplaceList and post the assignment for each workplace
+    Object.keys(assignments).forEach((workerID) => {
+      const assignedWorkplace = assignments[workerID];
+      post(workerID, assignedWorkplace)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  };
 
   const [authState, setAuthState] = useState(false);
 
@@ -113,16 +139,60 @@ function WorkerAssignment({ val }) {
 
                 </tr>
               </thead>
+
               <tbody>
                 {workers.map((worker) => (
                   <tr key={worker.workerID}>
                     <td>{worker.workerID}</td>
                     <td>{worker.workerName}</td>
                     <td>{worker.assignedWorkplace}</td>
-                    <td><input className='$input-btn-padding-y:.375rem;' onChange={(e) => setAssignment(e.target.value)} /><button type='button' className='btn btn-primary ml-2' onClick={() => post(worker.workerID)}> Complete worker assignment</button></td>
+                    <td>
+                      <select
+                        value={assignments[worker.workerID] || ""}
+                        onChange={(e) =>
+                          setAssignments({
+                            ...assignments,
+                            [worker.workerID]: e.target.value
+                          })
+                        }
+                      >
+                        <option value="">Select workplace</option>
+                        {workplaceList.map((workplace, index) => (
+                          <option key={index} value={workplace.assignedWorkplace}>
+                            {workplace.assignedWorkplace}
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        type="button"
+                        className="btn btn-primary ml-2"
+                        onClick={() => handlePost(worker.workerID)}
+                      >
+                        Complete worker assignment
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
+              {/* {workers.map((worker) => (
+                  <tr key={worker.workerID}>
+                    <td>{worker.workerID}</td>
+                    <td>{worker.workerName}</td>
+                    <td>{worker.assignedWorkplace}</td>
+                    <td>
+                      <select value={assignment} onChange={(e) => setAssignment(e.target.value)}>
+                        <option>Select workplace</option>
+                        {workplaceList.map((workplace, index) => (
+                          <option key={index} value={workplace.assignedWorkplace}>
+                            {workplace.assignedWorkplace}
+                          </option>
+                        ))}
+                      </select>
+
+                    </td>
+                  </tr>
+                ))} */}
+
             </table>
           </div>
         )

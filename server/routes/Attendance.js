@@ -2,7 +2,13 @@ const express = require("express");
 const router = express.Router();
 const { Attendance } = require("../models");
 const { Workers } = require("../models");
+const { Assignments } = require("../models");
+
 router.put("/", async (req, res) => {
+    await Assignments.update(
+        { ManagerManagerID: null, WorkerWorkerID: null },
+        { where: {} }
+    );
     try {
         const attendanceList = req.body;
 

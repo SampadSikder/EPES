@@ -3,6 +3,24 @@ const router = express.Router();
 const { Assignments } = require("../models");
 const { Workers } = require("../models");
 
+
+router.post("/", async (req, res) => {
+    const newWorkplace = req.body.assignedWorkplace;
+
+    try {
+        await Assignments.create({
+            assignedWorkplace: newWorkplace
+        });
+        res.send("Inserted workplace");
+    } catch (err) {
+
+        res.json("Already exists!");
+    }
+
+
+}
+);
+
 router.put("/:id", async (req, res) => {
     const managerID = req.params.id;
     const workplace = req.body;
@@ -11,22 +29,57 @@ router.put("/:id", async (req, res) => {
     console.log(workplace);
     const worker = await Workers.findByPk(workplace.workerID);
     if (worker) {
-        const ifExist = await Assignments.findOne({ where: { WorkerWorkerID: workplace.workerID } });
-        if (!ifExist) {
-            await Assignments.create(workplace);
-            res.send("Inserted");
-        } else {
-            await Assignments.update({ ManagerManagerID: workplace.ManagerManagerId }, { where: { WorkerWorkerID: workplace.workerID } });
-            await Assignments.update({ assignedWorkplace: workplace.assignedWorkplace }, { where: { WorkerWorkerID: workplace.workerID } });
-            await Workers.update({ assignedWorkplace: workplace.assignedWorkplace }, { where: { workerID: workplace.workerID } })
-            res.send("Updated");
+        try {
+            await Assignments.update({ ManagerManagerID: workplace.ManagerManagerID, WorkerWorkerID: workplace.WorkerWorkerID }, { where: { assignedWorkplace: workplace.assignedWorkplace } });
+            console.log(workplace.assignedWorkplace);
+            await Workers.update({ assignedWorkplace: workplace.assignedWorkplace }, { where: { workerID: workplace.WorkerWorkerID } });
+            res.json("Assignment updated!");
+        } catch (err) {
+            res.send(err);
         }
+
 
     } else {
         res.send("worker doesn't exist");
     }
-});
+
+
+})
+
+    ;
+
+// router.put("/:id", async (req, res) => {
+//     const managerID = req.params.id;
+//     const workplace = req.body;
+//     workplace['ManagerManagerID'] = managerID;
+//     workplace['WorkerWorkerID'] = workplace.workerID;
+//     console.log(workplace);
+//     const worker = await Workers.findByPk(workplace.workerID);
+//     if (worker) {
+//         const ifExist = await Assignments.findOne({ where: { WorkerWorkerID: workplace.workerID } });
+//         if (!ifExist) {
+//             await Assignments.create(workplace);
+//             res.send("Inserted");
+//         } else {
+//             await Assignments.update({ ManagerManagerID: workplace.ManagerManagerId }, { where: { WorkerWorkerID: workplace.workerID } });
+//             await Assignments.update({ assignedWorkplace: workplace.assignedWorkplace }, { where: { WorkerWorkerID: workplace.workerID } });
+//             await Workers.update({ assignedWorkplace: workplace.assignedWorkplace }, { where: { workerID: workplace.workerID } })
+//             res.send("Updated");
+//         }
+
+//     } else {
+//         res.send("worker doesn't exist");
+//     }
+// });
 router.get("/", async (req, res) => {
+    const assignedWorkplaces = await Assignments.findAll({
+        attributes: ['assignedWorkplace'],
+        where: { WorkerWorkerID: null }
+    });
+    res.json(assignedWorkplaces);
+});
+
+router.get("/assignments", async (req, res) => {
     const assignmentList = await Assignments.findAll();
     res.json(assignmentList);
 });
