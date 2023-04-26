@@ -6,10 +6,12 @@ const { Workers } = require("../models");
 
 router.post("/", async (req, res) => {
     const newWorkplace = req.body.assignedWorkplace;
+    const workplaceType = req.body.workplaceType;
 
     try {
         await Assignments.create({
-            assignedWorkplace: newWorkplace
+            assignedWorkplace: newWorkplace,
+            workplaceType: workplaceType
         });
         res.send("Inserted workplace");
     } catch (err) {

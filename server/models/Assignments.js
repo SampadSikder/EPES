@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
             unique: true
+        },
+        workplaceType: {
+            type: DataTypes.STRING,
+            allowNull: true
         }
     });
     return Assignments;
