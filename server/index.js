@@ -47,7 +47,10 @@ app.use("/attendance", attendanceRouter);
 const authenticator = require("./routes/Auth");
 app.use("/auth", authenticator);
 
-db.sequelize.sync({ alter: true }).then(() => {
+const reports = require("./documents/report");
+app.use("/reports", reports);
+
+db.sequelize.sync().then(() => {
     app.listen(5050, () => {
         console.log("Server running");
     });
