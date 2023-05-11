@@ -20,6 +20,7 @@ import ConfirmAssignment from "./pages/Worker/ConfirmAssignment";
 import RewardsAndTraining from "./pages/RewardsandTraining/RewardsAndTraining";
 import Rewards from "./pages/RewardsandTraining/Rewards";
 import Training from "./pages/RewardsandTraining/Training";
+import Camera from "./pages/Camera";
 function App() {
   return (
     <div className="App">
@@ -51,6 +52,7 @@ function App() {
           <Route path="/rewardsandtraining/:id" element={<RewardsAndTraining />} />
           <Route path="/rewards/:id" element={<Rewards />} />
           <Route path="/trainings/:id" element={<Training />} />
+          <Route path="/camera" element={<Camera />} />
         </Routes>
       </BrowserRouter>
     </div>

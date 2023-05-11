@@ -50,6 +50,9 @@ app.use("/auth", authenticator);
 const reports = require("./documents/report");
 app.use("/reports", reports);
 
+const camera = require("./routes/Camera");
+app.use("/camera", camera);
+
 db.sequelize.sync().then(() => {
     app.listen(5050, () => {
         console.log("Server running");
