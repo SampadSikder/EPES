@@ -11,16 +11,17 @@ import WorkerList from "./pages/Worker/WorkerList";
 import WorkerEvaluation from "./pages/Evaluation/WorkerEvaluation";
 import EvaluationPage from "./pages/Evaluation/EvaluationPage";
 import WorkerAttendance from "./pages/Worker/WorkerAttendance";
-import WorkerAssignment from "./pages/Worker/WorkerAssignment";
+import WorkerAssignment from "./pages/Assignments/WorkerAssignment";
 import Home from "./pages/Home";
 import ChangePassword from "./pages/ChangePassword";
 import WorkerProfile from "./pages/Dashboard/WorkerProfile";
 import AdminDashboard from "./pages/Dashboard/AdminDashboard";
-import ConfirmAssignment from "./pages/Worker/ConfirmAssignment";
+import ConfirmAssignment from "./pages/Assignments/ConfirmAssignment";
 import RewardsAndTraining from "./pages/RewardsandTraining/RewardsAndTraining";
 import Rewards from "./pages/RewardsandTraining/Rewards";
 import Training from "./pages/RewardsandTraining/Training";
 import Camera from "./pages/Camera";
+import NewAssignment from "./pages/Assignments/NewAssignment";
 function App() {
   return (
     <div className="App">
@@ -53,6 +54,7 @@ function App() {
           <Route path="/rewards/:id" element={<Rewards />} />
           <Route path="/trainings/:id" element={<Training />} />
           <Route path="/camera" element={<Camera />} />
+          <Route path="/newWorkstation/:id" element={<NewAssignment />} />
         </Routes>
       </BrowserRouter>
     </div>

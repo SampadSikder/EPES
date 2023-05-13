@@ -79,7 +79,7 @@ function Camera() {
 
                                 <td>
                                     <button className='btn btn-primary' >
-                                        <a href={workplace.cameraURL} target="_blank">See camera</a>
+                                        <a href={workplace.cameraURL}>See camera</a>
                                     </button>
                                 </td>
                             </tr>

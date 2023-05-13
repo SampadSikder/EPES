@@ -114,7 +114,7 @@ function ManagerDashboard() {
                       <Card.Title>
 
                       </Card.Title>
-                      <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} >Go to monitoring</button>
+                      <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/camera`)} >Go to monitoring</button>
                     </Card.Body>
                   </Card>
                   <Card border='dark' className='mt-3'>
@@ -126,6 +126,17 @@ function ManagerDashboard() {
 
                       </Card.Title>
                       <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/rewardsandtraining/${id}`)}>Assign Rewards or Training</button>
+                    </Card.Body>
+                  </Card>
+                  <Card border='dark' className='mt-3'>
+                    <Card.Header>
+                      Add Workstation
+                    </Card.Header>
+                    <Card.Body>
+                      <Card.Title>
+
+                      </Card.Title>
+                      <button type="button" className="btn btn-primary btn-block" style={{ fontSize: '14px', padding: '10px' }} onClick={() => goTo(`/newWorkstation/${id}`)}>New Workstation</button>
                     </Card.Body>
                   </Card>
                 </div>
