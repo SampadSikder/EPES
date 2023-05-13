@@ -21,8 +21,19 @@ function NewAssignment() {
                 .catch((error) => {
                     console.log(error);
                 });
-        }
-    };
+            const data = {
+                workplaceName: assignedWorkplace
+            }
+            axios.post('http://localhost:8000/assign', {
+                data
+            }).then((response) => {
+                alert(response.data);
+            })
+                .catch((error) => {
+                    console.log(error);
+                });
+        };
+    }
 
     return (
         <div>

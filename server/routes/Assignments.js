@@ -86,4 +86,21 @@ router.get("/assignments", async (req, res) => {
     res.json(assignmentList);
 });
 
+router.put("/startMonitoring/:id", async (req, res) => {
+    const monitoringStatus = req.body.monitoringStatus;
+    const workerId = req.params.id;
+    console.log(workerId);
+    console.log(monitoringStatus);
+    await Assignments.update({
+        monitoringStatus: monitoringStatus
+    }, { where: { WorkerWorkerID: workerId } });
+    res.json("Updated!");
+});
+
+router.get("/monitoring", async (req, res) => {
+    const assignmentList = await Assignments.findAll();
+    res.json(assignmentList);
+});
+
+
 module.exports = router;

@@ -8,8 +8,9 @@ function ConfirmAssignment({ val }) {
     const [assignment, setAssignment] = useState(null);
     const [workers, setWorkers] = useState([]);
 
+
     useEffect(() => {
-        Axios.get("http://localhost:5050/attendance").then((response) => {
+        Axios.get("http://localhost:5050/assign/monitoring").then((response) => {
             try {
                 console.log(response.data);
                 setWorkers(response.data);
@@ -20,10 +21,9 @@ function ConfirmAssignment({ val }) {
     }, [val]);
 
 
-    const post = (workerID) => {
-        Axios.put(`http://localhost:5050/assign/${id}`, {
-            workerID: workerID,
-            assignedWorkplace: assignment
+    const post = (workerID, monitoringStatus) => {
+        Axios.put(`http://localhost:5050/assign/startMonitoring/${workerID}`, {
+            monitoringStatus: monitoringStatus
         }).then((response) => {
             try {
                 console.log(response.data);
@@ -119,13 +119,32 @@ function ConfirmAssignment({ val }) {
                             </thead>
                             <tbody>
                                 {workers.map((worker) => (
-                                    <tr key={worker.workerID}>
-                                        <td>{worker.workerID}</td>
-                                        <td>{worker.workerName}</td>
-                                        <td>{worker.assignedWorkplace}</td>
-                                        <td>  <Button style={{ backgroundColor: "green" }} onClick={(e) => { confirmAssignment(e) }}>Start Monitoring</Button></td>
-                                        <td>  <Button style={{ backgroundColor: "red" }} onClick={(e) => { confirmAssignment(e) }}>Cancel Monitoring</Button></td>
+                                    <tr key={worker.WorkerWorkerID}>
+                                        {worker.WorkerWorkerID !== null ? (
+                                            <>
+                                                <td>{worker.WorkerWorkerID}</td>
+                                                <td>{worker.assignedWorkplace}</td>
+                                                {worker.monitoringStatus ? (
+                                                    <td>
+                                                        <Button style={{ backgroundColor: "green" }} onClick={(e) => { post(worker.WorkerWorkerID, !worker.monitoringStatus) }}>Cancel Monitoring</Button>
+                                                    </td>
+                                                ) : (
+                                                    <td>
+                                                        <Button style={{ backgroundColor: "red" }} onClick={(e) => { post(worker.WorkerWorkerID, !worker.monitoringStatus) }}>Start Monitoring</Button>
+                                                    </td>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <>
+                                                <td>
+                                                    Not assigned to worker
+                                                </td>
+                                                <td>
+                                                    {worker.assignedWorkplace}
+                                                </td>
+                                            </>
 
+                                        )}
                                     </tr>
                                 ))}
                             </tbody>
