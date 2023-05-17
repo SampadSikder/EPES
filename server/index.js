@@ -53,6 +53,9 @@ app.use("/reports", reports);
 const camera = require("./routes/Camera");
 app.use("/camera", camera);
 
+const notifications = require("./routes/Notifications");
+app.use("/notifications", notifications);
+
 db.sequelize.sync().then(() => {
     app.listen(5050, () => {
         console.log("Server running");

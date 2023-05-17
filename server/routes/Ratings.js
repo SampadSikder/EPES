@@ -3,6 +3,7 @@ const router = express.Router();
 const { Ratings } = require("../models");
 const { Workers } = require("../models");
 const { totalEvaluation } = require("../evaluation/evaluate");
+const { Notifications } = require("../models");
 
 router.put("/:id", async (req, res) => {
     const managerID = req.params.id;
@@ -29,7 +30,8 @@ router.put("/:id", async (req, res) => {
             await Workers.update({ kpi: ratings.rating }, { where: { workerID: workerID } });
             res.send("Inserted");
         }
-
+        const notify = `Rating of ${workerID} updated`
+        await Notifications.create(notify);
     } else {
         res.send("worker doesn't exist");
 

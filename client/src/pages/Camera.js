@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Camera() {
     const [workplaces, setWorkplaces] = useState([]);
+    const [assignedWorkplace, setAssignedWorkplace] = useState([]);
 
     const navigate = useNavigate("");
     useEffect(() => {
@@ -13,6 +14,11 @@ function Camera() {
             console.log(response.data);
             setWorkplaces(response.data);
         });
+        axios.get("http://localhost:5050/assign/monitoring").then((response) => {
+            console.log(response.data);
+            setAssignedWorkplace(response.data);
+        }
+        )
     }, []);
     return (
         // <div>
@@ -70,23 +76,28 @@ function Camera() {
                 </nav>
                 <table>
                     <thead>
-                        <th>Workplace Name</th>
+                        <tr>
+                            <th>Workplace Name</th>
+                            <th>Status</th>
+                            <th>Camera URL</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        {workplaces.map((workplace) => (
-                            <tr>
-                                <td>{workplace.workplaceName}</td>
-
-                                <td>
-                                    <button className='btn btn-primary' >
-                                        <a href={workplace.cameraURL}>See camera</a>
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-
-
-
+                        {workplaces.map((workplace) => {
+                            const assigned = assignedWorkplace.find((w) => w.assignedWorkplace === workplace.workplaceName);
+                            const status = assigned ? (assigned.monitoringStatus ? "Monitoring" : "Not Monitoring") : "Not Assigned";
+                            return (
+                                <tr key={workplace.workplaceName}>
+                                    <td>{workplace.workplaceName}</td>
+                                    <td>{status}</td>
+                                    <td>
+                                        <a href={workplace.cameraURL}>
+                                            <button className="btn btn-primary">See Camera</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
 

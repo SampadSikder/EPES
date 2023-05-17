@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Assignments } = require("../models");
 const { Workers } = require("../models");
+const { Notifications } = require("../models");
 
 
 router.post("/", async (req, res) => {
@@ -95,6 +96,8 @@ router.put("/startMonitoring/:id", async (req, res) => {
         monitoringStatus: monitoringStatus
     }, { where: { WorkerWorkerID: workerId } });
     res.json("Updated!");
+    const notify = `Worker ${workerId} is being monitored`;
+    await Notifications.create(notify);
 });
 
 router.get("/monitoring", async (req, res) => {

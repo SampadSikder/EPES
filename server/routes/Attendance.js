@@ -3,6 +3,7 @@ const router = express.Router();
 const { Attendance } = require("../models");
 const { Workers } = require("../models");
 const { Assignments } = require("../models");
+const { Notifications } = require("../models");
 
 router.put("/", async (req, res) => {
     await Assignments.update(
@@ -24,6 +25,8 @@ router.put("/", async (req, res) => {
         });
 
         res.send("Attendance updated");
+        const notify = "Attendance updated";
+        await Attendance.create(notify);
     } catch (error) {
         console.log(error);
         res.status(500).send("Internal server error");
