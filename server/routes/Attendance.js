@@ -23,10 +23,12 @@ router.put("/", async (req, res) => {
                 await Attendance.create({ WorkerWorkerID: workerID, present: present });
             }
         });
-
-        res.send("Attendance updated");
         const notify = "Attendance updated";
-        await Attendance.create(notify);
+        await Notifications.create({
+            notification: notify
+        });
+        res.send("Attendance updated");
+
     } catch (error) {
         console.log(error);
         res.status(500).send("Internal server error");

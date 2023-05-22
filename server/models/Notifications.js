@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const Notifications = sequelize.define("Notifications", {
-        workplaceName: {
+        notification: {
             type: DataTypes.STRING,
             allowNull: true,
         }

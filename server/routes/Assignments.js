@@ -14,6 +14,10 @@ router.post("/", async (req, res) => {
             assignedWorkplace: newWorkplace,
             workplaceType: workplaceType
         });
+        const notify = "New workplace created successfully";
+        await Notifications.create({
+            notification: notify
+        });
         res.send("Inserted workplace");
     } catch (err) {
 
@@ -95,9 +99,20 @@ router.put("/startMonitoring/:id", async (req, res) => {
     await Assignments.update({
         monitoringStatus: monitoringStatus
     }, { where: { WorkerWorkerID: workerId } });
+
+    if (monitoringStatus === false) {
+        const notify = `Monitoring of Worker ${workerId} has stopped`;
+        await Notifications.create({
+            notification: notify
+        });
+    } else {
+        const notify = `Worker ${workerId} is being monitored`;
+        await Notifications.create({
+            notification: notify
+        });
+    }
+
     res.json("Updated!");
-    const notify = `Worker ${workerId} is being monitored`;
-    await Notifications.create(notify);
 });
 
 router.get("/monitoring", async (req, res) => {
