@@ -20,6 +20,34 @@ function Leaderboard() {
       </tr>
     ));
   };
+  const downloadPDF = () => {
+    Axios({
+      url: 'http://localhost:5050/reports/evaluation-report',
+      method: 'GET',
+      responseType: 'blob' // Set the response type to blob
+    })
+      .then(response => {
+        // Create a Blob URL from the response data
+        const blobUrl = URL.createObjectURL(new Blob([response.data]));
+
+        // Create a temporary <a> element and set its href to the Blob URL
+        const link = document.createElement('a');
+        link.href = blobUrl;
+
+        // Set the download attribute and filename for the downloaded file
+        link.setAttribute('download', 'filename.pdf');
+
+        // Simulate a click on the link to trigger the download
+        link.click();
+
+        // Clean up the Blob URL by revoking it
+        URL.revokeObjectURL(blobUrl);
+      })
+      .catch(error => {
+        // Handle any errors
+        console.error('Error downloading PDF:', error);
+      });
+  };
   useEffect(() => {
     Axios.get("http://localhost:5050/leaderboards").then((response) => {
       if (response.data.error) console.log(response.data.error);
@@ -83,6 +111,9 @@ function Leaderboard() {
           </tbody>
         </Table>
         {!showAll && <Button color="primary" onClick={() => setShowAll(true)}>Show all workers</Button>}
+      </div>
+      <div className="ml-auto mr-auto text-center">
+        <button className='btn btn-primary' onClick={() => downloadPDF()}>Get Evaluation Report</button>
       </div>
     </div>
   );

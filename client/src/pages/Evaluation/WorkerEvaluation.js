@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import Axios from 'axios';
-
+import Navbar from '../../components/Navbar';
 function WorkerEvaluation() {
   let { id } = useParams();
   const [workers, setWorkers] = useState([]);
   let navigate = useNavigate();
+  const [managerInformation, setManagerInformation] = useState({});
 
   useEffect(() => {
     Axios.get(`http://localhost:5050/workers`).then((response) => {
@@ -33,6 +34,9 @@ function WorkerEvaluation() {
 
   useEffect(() => {
     authenticate("manager");
+    Axios.get(`http://localhost:5050/managers/${id}`).then((response) => {
+      setManagerInformation(response.data);
+    });
   }, []);
 
   const goTo = (path) => {
@@ -41,7 +45,7 @@ function WorkerEvaluation() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      {/* <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#" >
           EPES
         </a>
@@ -76,38 +80,42 @@ function WorkerEvaluation() {
             </li>
           </ul>
         </div>
-      </nav>
+      </nav> */}
       {
         authState && (
-
           <div>
-            <h1>Worker List</h1>
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Assigned workplace</th>
-                  <th>KPI</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {workers.map((worker) => (
-                  <tr key={worker.workerID}>
-                    <td>{worker.workerID}</td>
-                    <td>{worker.workerName}</td>
-                    <td>{worker.assignedWorkplace}</td>
-                    <td>{worker.kpi}</td>
-                    <td>
-                      <button className="btn btn-primary" onClick={() => goTo(`/evaluationPage/${id}/${worker.workerID}`)}>
-                        Evaluate Employee
-                      </button>
-                    </td>
+
+
+            <Navbar managerInformation={managerInformation} key={id} />
+            <div>
+              <h1>Worker List</h1>
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Assigned workplace</th>
+                    <th>KPI</th>
+                    <th></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {workers.map((worker) => (
+                    <tr key={worker.workerID}>
+                      <td>{worker.workerID}</td>
+                      <td>{worker.workerName}</td>
+                      <td>{worker.assignedWorkplace}</td>
+                      <td>{worker.kpi}</td>
+                      <td>
+                        <button className="btn btn-primary" onClick={() => goTo(`/evaluationPage/${id}/${worker.workerID}`)}>
+                          Evaluate Employee
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>)
       }
     </>

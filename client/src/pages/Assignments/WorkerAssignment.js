@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-
+import Navbar from '../../components/Navbar';
 function WorkerAssignment({ val }) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -9,6 +9,7 @@ function WorkerAssignment({ val }) {
   const [assignments, setAssignments] = useState({});
   const [workers, setWorkers] = useState([]);
   const [workplaceList, setWorkplaceList] = useState([]);
+  const [managerInformation, setManagerInformation] = useState({});
 
   useEffect(() => {
     Axios.get("http://localhost:5050/attendance").then((response) => {
@@ -80,6 +81,9 @@ function WorkerAssignment({ val }) {
 
   useEffect(() => {
     authenticate("manager");
+    Axios.get(`http://localhost:5050/managers/${id}`).then((response) => {
+      setManagerInformation(response.data);
+    });
   }, []);
 
   const goTo = (path) => {
@@ -91,7 +95,7 @@ function WorkerAssignment({ val }) {
       {
         authState && (
           <div>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            {/* <nav className="navbar navbar-expand-lg navbar-light bg-light">
               <a className="navbar-brand" href="#" onClick={() => goTo(`/managerDashboard/${id}`)} >
                 EPES
               </a>
@@ -126,7 +130,8 @@ function WorkerAssignment({ val }) {
                   </li>
                 </ul>
               </div>
-            </nav>
+            </nav> */}
+            <Navbar managerInformation={managerInformation} key={id} />
             <h1>Worker Assignment</h1>
 
             <table>

@@ -11,6 +11,7 @@ function RewardsAndTraining() {
     let navigate = useNavigate();
     const [authState, setAuthState] = useState(false);
     const [workers, setWorkers] = useState([]);
+    const [managerInformation, setManagerInformation] = useState({});
     const authenticate = (type) => {
         axios.get("http://localhost:5050/auth", {
             headers: {
@@ -31,11 +32,14 @@ function RewardsAndTraining() {
         axios.get(`http://localhost:5050/workers`).then((response) => {
             setWorkers(response.data);
         });
+        axios.get(`http://localhost:5050/managers/${id}`).then((response) => {
+            setManagerInformation(response.data);
+        });
         authenticate("manager");
     }, []);
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            {/* <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <a className="navbar-brand" href="#" >
                     EPES
                 </a>
@@ -70,11 +74,12 @@ function RewardsAndTraining() {
                         </li>
                     </ul>
                 </div>
-            </nav>
+            </nav> */}
             {
                 authState && (
 
                     <div>
+                        <Navbar managerInformation={managerInformation} key={id} />
                         <h1>Worker List</h1>
                         <table>
                             <thead>

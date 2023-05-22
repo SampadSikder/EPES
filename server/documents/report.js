@@ -113,7 +113,7 @@ router.get('/manpower-report', async (req, res) => {
 });
 
 
-router.get('/kpi-report', async (req, res) => {
+router.get('/evaluation-report', async (req, res) => {
     await generateKPIPDF(req, res)
         .then(pdf => {
             res.setHeader('Content-Type', 'application/pdf');

@@ -5,11 +5,12 @@ const { Notifications } = require("../models");
 
 router.get('/', async (req, res) => {
     const tenMinutesAgo = new Date(new Date() - 10 * 60 * 1000);
+    console.log("Get notification");
     await Notifications.findAll({
-        where: {
-            [Op.gt]: tenMinutesAgo,
-            [Op.lt]: new Date()
-        },
+        // where: {
+        //     [Op.gt]: tenMinutesAgo,
+        //     [Op.lt]: new Date()
+        // },
     }).then((data) => {
         res.json(data);
     }).catch((err) => {
