@@ -40,6 +40,8 @@ router.put("/:id", async (req, res) => {
             await Assignments.update({ ManagerManagerID: workplace.ManagerManagerID, WorkerWorkerID: workplace.WorkerWorkerID }, { where: { assignedWorkplace: workplace.assignedWorkplace } });
             console.log(workplace.assignedWorkplace);
             await Workers.update({ assignedWorkplace: workplace.assignedWorkplace }, { where: { workerID: workplace.WorkerWorkerID } });
+            const notification = `Worker ${workplace.WorkerWorkerID} assigned to ${workplace.assignedWorkplace}`;
+            await Notifications.create({ notification: notification });
             res.json("Assignment updated!");
         } catch (err) {
             res.send(err);

@@ -53,6 +53,7 @@ function Leaderboard() {
       if (response.data.error) console.log(response.data.error);
       else {
         setWorkers(response.data);
+        console.log(workers);
       }
     })
   }, []);

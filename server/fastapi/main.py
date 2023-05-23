@@ -5,11 +5,16 @@ from kpi import *
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import asyncio
+from pydantic import BaseModel
 
 workplace_stats = {}
 
-
 app=FastAPI()
+
+class Workplace(BaseModel):
+    workplaceName: str
+
+
 database = Database("mysql+aiomysql://root:password@127.0.0.1:3306/EPES")
 origins = ["http://localhost:3000"]  # Replace with your client's origin
 app.add_middleware(
@@ -24,21 +29,20 @@ app.add_middleware(
 @app.on_event('startup')
 async def database_connect():
     await database.connect()
-    await startMonitoring()
+    asyncio.create_task(startMonitoring())
 
 @app.post('/assign')
-async def createWorkplace(workplaceName):
+async def createWorkplace(workplace: Workplace):
     try:
-        os.mkdir("../../workplaceVideos/"+str(workplaceName))
+        os.mkdir("../../workplaceVideos/"+str(workplace.workplaceName))
     except:
-        print("Failed to create folder for workstation "+str(workplaceName))
+        print("Failed to create folder for workstation "+str(workplace.workplaceName))
 
 
 async def startMonitoring():
     while True:
         query = "SELECT WorkerWorkerID, assignedWorkplace, monitoringStatus FROM Assignments"
         assignments = await database.fetch_all(query)
-        print(assignments)
         await kpiLogging(assignments)
         await asyncio.sleep(15)  #15 second sleep
 
@@ -77,7 +81,6 @@ async def kpiLogging(assignments):
     tasks = []
     for assignment in assignments:
         print(assignment['monitoringStatus'])
-        asyncio.sleep(0)
         if assignment['monitoringStatus']:
             print("Monitoring")
             if assignment['assignedWorkplace'] not in workplace_stats:
@@ -85,31 +88,37 @@ async def kpiLogging(assignments):
                     "start_time": datetime.now(),
                     "total_kpi": 0
                 }
-            tasks.append((assignment, asyncio.create_task(getKpiScore(assignment['assignedWorkplace']))))
+            tasks.append((assignment, asyncio.create_task(getKpiScore(assignment['assignedWorkplace'],database))))
     
     results = await asyncio.gather(*[t[1] for t in tasks])
-    
-    for assignment, kpi in zip(assignments, results):
+    print(workplace_stats)
+    print(results)
+    for assignment in assignments:
         if assignment['monitoringStatus']:
-            if kpi == 1:
-                print("Currently working")
-                workplace_stats[assignment['assignedWorkplace']]['total_kpi'] += kpi
-            else:
-                print("Not working")
+            for kpi in results:
+                if kpi == 1:
+                    print("Currently working")
+                    workplace_stats[assignment['assignedWorkplace']]['total_kpi'] += kpi
+                    print(workplace_stats[assignment['assignedWorkplace']]['total_kpi'])
+                else:
+                    print("Not working")
         elif assignment['assignedWorkplace'] in workplace_stats:
+            print("calculating kpi")
             total_time = (datetime.now() - workplace_stats[assignment['assignedWorkplace']]['start_time']).total_seconds()
             total_kpi = workplace_stats[assignment['assignedWorkplace']]['total_kpi']
            
             workerQuery = "SELECT workerID, kpi FROM Workers"
 
             workerList = await database.fetch_all(workerQuery)
-
+            print(workerList)
+            print(assignment)
             for worker in workerList:
                 if worker.workerID == assignment['WorkerWorkerID']:
                     old_kpi=worker.kpi
                     print(old_kpi)
                     if old_kpi!=None:
-                        new_kpi=old_kpi*0.3+(total_kpi/(total_time/100))*0.7 #assign weights
+                        #new_kpi=old_kpi*0.3+(total_kpi/(total_time/100))*0.7 #assign weights
+                        new_kpi=old_kpi+(total_kpi/(total_time/100))
                     else:
                         new_kpi=(total_kpi/(total_time/100))
                     updateQuery="Update Workers set kpi=:kpi where workerID=:workerID"

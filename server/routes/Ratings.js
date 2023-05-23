@@ -9,7 +9,7 @@ router.put("/:id", async (req, res) => {
     const managerID = req.params.id;
     const rating = req.body.rating;
     const workerID = req.body.workerID;
-    const kpi = totalEvaluation(rating)
+
     //console.log(workerID);
     const ratings = {
         ManagerManagerID: managerID,
@@ -17,6 +17,7 @@ router.put("/:id", async (req, res) => {
         WorkerWorkerID: workerID
     }
     const worker = await Workers.findByPk(workerID);
+    const old_kpi = worker.kpi;
     if (worker) {
         const ifExist = await Ratings.findOne({ where: { WorkerWorkerID: workerID } });
         if (!ifExist) {
@@ -27,7 +28,8 @@ router.put("/:id", async (req, res) => {
         } else {
             console.log("Update");
             await Ratings.update({ rating: ratings.rating, ManagerManagerID: ratings.ManagerManagerID }, { where: { WorkerWorkerID: ratings.WorkerWorkerID } });
-            await Workers.update({ kpi: ratings.rating }, { where: { workerID: workerID } });
+            const new_kpi = rating * 0.1 + (old_kpi) * 0.9
+            await Workers.update({ kpi: new_kpi }, { where: { workerID: workerID } });
             res.send("Inserted");
         }
         const notify = `Rating of ${workerID} updated`

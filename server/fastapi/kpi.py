@@ -66,6 +66,26 @@ def getKPIFromFrame(assignedWorkplace):
 
 
     return kpi
-async def getKpiScore(assignedWorkplace):
-  convertVideoToFrame(assignedWorkplace)
+
+def convertStreamToFrame(assignedWorkplace, workplace):
+    try:
+      filePath="../../workplaceVideos/"+str(assignedWorkplace)
+      videoFile = None
+      vcap = cv2.VideoCapture(workplace['cameraURL'])
+      imageFilePath = os.path.join(filePath, "img.jpg")
+      ret, frame = vcap.read()
+      cv2.imwrite(imageFilePath, frame) 
+    except cv2.error:
+      print("Stream not found")
+
+async def getKpiScore(assignedWorkplace, database):
+  
+  query = "SELECT * FROM Cameras WHERE workplaceName=:workplaceName"
+  values = {"workplaceName": assignedWorkplace}
+  workplace = await database.fetch_one(query, values)
+
+  if workplace:
+    convertStreamToFrame(assignedWorkplace, workplace)
+  else:
+    convertVideoToFrame(assignedWorkplace)
   return getKPIFromFrame(assignedWorkplace)
