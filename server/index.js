@@ -56,7 +56,7 @@ app.use("/camera", camera);
 const notifications = require("./routes/Notifications");
 app.use("/notifications", notifications);
 
-db.sequelize.sync().then(() => {
+db.sequelize.sync({ alter: true }).then(() => {
     app.listen(5050, () => {
         console.log("Server running");
     });

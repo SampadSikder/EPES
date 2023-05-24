@@ -29,24 +29,26 @@ function Notification() {
                 console.error('Error downloading PDF:', error);
             });
     };
+    const fetchNotifications = async () => {
+        try {
+            const response = await axios.get('http://localhost:5050/notifications');
+            setNotifications(response.data);
 
+        } catch (error) {
+            console.log(error);
+        }
+    };
     useEffect(() => {
-        const fetchNotifications = async () => {
-            try {
-                const response = await axios.get('http://localhost:5050/notifications');
-                setNotifications(response.data);
 
-            } catch (error) {
-                console.log(error);
-            }
-        };
 
         fetchNotifications();
     }, []);
 
-    const removeNotification = (notification) => {
-        const updatedNotifications = notifications.filter((n) => n.notification !== notification);
-        setNotifications(updatedNotifications);
+    const removeNotification = (id) => {
+        axios.delete(`http://localhost:5050/notifications/${id}`).then((response) => {
+            console.log(response.data);
+            fetchNotifications();
+        }).catch(error => console.log(error));
     };
 
 
@@ -81,7 +83,7 @@ function Notification() {
                             color: '#FFFFFF',
                             border: 'none',
                             padding: '5px 10px',
-                        }} onClick={() => removeNotification(notification.notification)}>Remove</button>
+                        }} onClick={() => removeNotification(notification.id)}>Remove</button>
                     </div>
                 ))
             ) : (

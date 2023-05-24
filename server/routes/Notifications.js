@@ -15,4 +15,11 @@ router.get('/', async (req, res) => {
             res.json(err);
         });
 });
+
+router.delete('/:id', async (req, res) => {
+    const id = req.params.id;
+    await Notifications.destroy({ where: { id: id } });
+    res.json("Done");
+})
+
 module.exports = router;
