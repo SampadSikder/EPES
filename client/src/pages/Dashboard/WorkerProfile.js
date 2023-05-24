@@ -8,6 +8,7 @@ import Card from 'react-bootstrap/Card'
 
 function WorkerProfile() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [workerInformation, setWorkerInformation] = useState(null);
   const [filepath, setFilePath] = useState(null);
@@ -30,53 +31,91 @@ function WorkerProfile() {
 
   return (
 
+    <div className='root'>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <a className="navbar-brand" href="#" >
+          EPES
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-    <div className="container mt-5" >
-      <div className="worker-profile-header">
-        <img src={imageUrl} alt={imageAltText} />
-        {workerInformation && (
-          <>
-            <Card border='info' className='mt-3'>
-              <Card.Header>
-                Employee Name
-              </Card.Header>
-              <Card.Body>
-                <h1>{workerInformation.workerName}</h1>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item active">
 
-              </Card.Body>
-            </Card>
-            <Card border='secondary' className='mt-3'>
-              <Card.Header>
-                Employee ID
-              </Card.Header>
-              <Card.Body>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#" onClick={() => navigate(-1)}>
+                Back
+              </a>
+            </li>
+          </ul>
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <a className="nav-link" href="http://localhost:3000/login">
+                Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div className="container mt-5" >
+        <div className="worker-profile-header">
+          <img src={imageUrl} alt={imageAltText} />
+          {workerInformation && (
+            <>
+              <Card border='info' className='mt-3'>
+                <Card.Header>
+                  Employee Name
+                </Card.Header>
+                <Card.Body>
+                  <h1>{workerInformation.workerName}</h1>
 
-                <p>{workerInformation.workerID}</p>
-              </Card.Body>
+                </Card.Body>
+              </Card>
+              <Card border='secondary' className='mt-3'>
+                <Card.Header>
+                  Employee ID
+                </Card.Header>
+                <Card.Body>
 
-            </Card>
-            <Card border='primary' className='mt-3'>
-              <Card.Header>
+                  <p>{workerInformation.workerID}</p>
+                </Card.Body>
 
-                <h2>Specialization</h2>
-              </Card.Header>
-              <Card.Body>
+              </Card>
+              <Card border='primary' className='mt-3'>
+                <Card.Header>
 
-                <p>{workerInformation.specialization}</p>
-              </Card.Body>
-            </Card>
-            <Card border='dark' className='mt-3'>
-              <Card.Header>
-                KPI Score
-              </Card.Header>
-              <Card.Body>
+                  <h2>Specialization</h2>
+                </Card.Header>
+                <Card.Body>
 
-                <p>{workerInformation.kpi}</p>
-              </Card.Body>
-            </Card>
-          </>
-        )}
+                  <p>{workerInformation.specialization}</p>
+                </Card.Body>
+              </Card>
+              <Card border='dark' className='mt-3'>
+                <Card.Header>
+                  KPI Score
+                </Card.Header>
+                <Card.Body>
+
+                  <p>{workerInformation.kpi}</p>
+                </Card.Body>
+              </Card>
+            </>
+          )}
+        </div>
       </div>
+
     </div>
 
   );

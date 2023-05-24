@@ -22,12 +22,24 @@ const generateattendancePDF = () => {
 
         doc.fontSize(18).text('Attendance Records for ' + today.toLocaleDateString(), { align: 'center' });
         doc.moveDown();
+        doc.moveDown();
         doc.fontSize(12);
-        doc.font('Courier').text(`Worker ID       Present/absent`);
+        doc.font('Times-Bold').text(`Worker ID`, {
+            align: 'left'
+        });
+
+        doc.font('Times-Bold').text(`Present/absent`, {
+            align: 'center'
+        });
 
         for (const record of attendanceRecords) {
-            console.log(record.WorkerWorkerID, record.present);
-            doc.font('Courier').text(`${record.WorkerWorkerID}             ${record.present}`);
+            doc.fontSize(10);
+            doc.font('Times-Roman').text(`${record.WorkerWorkerID}`,
+                { align: 'left' });
+            doc.font('Times-Roman').text(`${record.present}`,
+                {
+                    align: 'center'
+                });
         }
 
         doc.moveDown();
@@ -36,11 +48,29 @@ const generateattendancePDF = () => {
         doc.fontSize(18).text('Manpower Need', { align: 'center' });
         doc.moveDown();
         doc.fontSize(12);
-        doc.font('Courier').text(`WorkeplaceID       Workplacetype`);
+        //doc.font('Courier').text(`WorkeplaceID       Workplacetype`);
+        doc.font('Times-Bold').text("WorkplaceID", {
+            columnGap: 10,
+            align: 'left'
+        });
+        doc.font('Times-Bold').text("Workplacetype", {
 
+            columnGap: 10,
+            align: 'right'
+        });
         for (const record of assignmentRecords) {
             console.log(record.assignedWorkplace);
-            doc.font('Courier').text(`${record.assignedWorkplace}                  ${record.workplaceType}`);
+            //doc.font('Courier').text(`${record.assignedWorkplace}                  ${record.workplaceType}`);
+            doc.font('Times-Roman').text(`${record.assignedWorkplace}`,
+                {
+                    columnGap: 10,
+                    align: 'left'
+                })
+            doc.font('Times-Roman').text(`${record.workplaceType}`,
+                {
+                    columnGap: 10,
+                    align: 'right'
+                })
         }
 
         doc.end();
@@ -76,13 +106,31 @@ const generateKPIPDF = () => {
 
         doc.moveDown();
         doc.fontSize(12);
-        doc.font('Courier').text('Employee Name     Employee ID     Specialization     KPI');
+        doc.font('Times-Bold').text('Employee Name', {
+            align: 'left',
+        });
+        doc.font('Times-Bold').text('Employee ID', {
+            align: 'center',
+        });
+        doc.font('Times-Bold').text('KPI', {
+            align: 'right',
+        });
 
         for (const worker of workerList) {
             const { workerID, workerName, specialization, kpi } = worker;
             const kpiPrint = kpi === null ? 0 : kpi.toPrecision(2);
-            doc.font('Courier').text(`${workerName.substr(0, 8)}              ${workerID}           ${specialization}        ${kpiPrint}`);
+            doc.font('Times-Roman').text(`${workerName}`, {
+                align: 'left',
+            });
+            doc.font('Times-Roman').text(`${workerID}`, {
+                align: 'center',
+            });
+            doc.font('Times-Roman').text(`${kpiPrint}`, {
+                align: 'right',
+            });
+            //doc.font('Courier').text(`${workerName.substr(0, 8)}              ${workerID}           ${specialization}        ${kpiPrint}`);
         }
+
 
         // Finalize and end the document
         doc.end();
