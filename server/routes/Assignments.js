@@ -27,6 +27,18 @@ router.post("/", async (req, res) => {
 
 }
 );
+router.delete("/", async (req, res) => {
+    const workplaceName = req.body.workplaceName;
+    const findWorkplace = await Assignments.findAll({ where: { assignedWorkplace: workplaceName } });
+    if (findWorkplace.length > 0) {
+        await Assignments.destroy({ where: { assignedWorkplace: workplaceName } });
+        res.send("Deleted");
+    } else {
+        res.send("Workplace Not found");
+    }
+
+
+})
 
 router.put("/:id", async (req, res) => {
     const managerID = req.params.id;
