@@ -151,7 +151,7 @@ function Training() {
                     {logs.map((log) => (
                         <tr >
                             <td>{log.type} </td>
-                            <td> <button className="btn btn-primary ml-2" onClick={() => removeTraining(log.type)}>Remove training</button></td>
+                            <td> <button className="btn btn-primary ml-2" onClick={() => removeTraining(log.type)}>Complete training</button></td>
                         </tr>
                     ))}
                 </tbody>

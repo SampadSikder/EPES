@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    const workplaceName = req.body.workplaceName;
+    const workplaceName = req.body.assignedWorkplace;
     const cameraURL = req.body.cameraURL;
     await Camera.create({ workplaceName: workplaceName, cameraURL: cameraURL });
     res.send("Done");

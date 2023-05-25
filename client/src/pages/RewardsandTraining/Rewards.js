@@ -32,7 +32,21 @@ function Rewards() {
         })
 
     }
+    const removeReward = (coupon) => {
+        console.log(id);
+        Axios.put(`http://localhost:5050/rt/delreward`, {
+            coupon: coupon,
+            workerID: id
+        }).then((response) => {
+            if (response.data.error) console.log(response.data.error);
+            else {
+                alert(response.data);
+                setGreyedOut(true);
+                window.location.reload();
+            }
+        })
 
+    }
 
 
     useEffect(() => {
@@ -123,6 +137,7 @@ function Rewards() {
                     {logs.map((log) => (
                         <tr >
                             <td>{log.coupon}</td>
+                            <td> <button className="btn btn-primary ml-2" onClick={() => removeReward(log.coupon)}>Redeemed</button></td>
                         </tr>
                     ))}
                 </tbody>

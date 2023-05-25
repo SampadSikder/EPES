@@ -56,6 +56,21 @@ router.put("/training", async (req, res) => {
     }
 });
 
+router.put("/delreward", async (req, res) => {
+    const workerID = req.body.workerID;
+    const reward = {
+        coupon: req.body.coupon,
+        WorkerWorkerID: workerID
+    }
+    await Rewards.destroy({
+        where: {
+            coupon: req.body.coupon,
+            WorkerWorkerID: workerID
+        }
+    })
+    res.send("Success");
+});
+
 router.put("/deltraining", async (req, res) => {
     const workerID = req.body.workerID;
     const training = {
@@ -68,7 +83,7 @@ router.put("/deltraining", async (req, res) => {
             WorkerWorkerID: workerID
         }
     })
-    res.send("success");
+    res.send("Success");
 });
 
 router.get("/rewards", async (req, res) => {

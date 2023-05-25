@@ -3,6 +3,7 @@ const router = express.Router();
 const { Assignments } = require("../models");
 const { Workers } = require("../models");
 const { Notifications } = require("../models");
+const { Camera } = require("../models");
 
 
 router.post("/", async (req, res) => {
@@ -14,6 +15,7 @@ router.post("/", async (req, res) => {
             assignedWorkplace: newWorkplace,
             workplaceType: workplaceType
         });
+
         const notify = "New workplace created successfully";
         await Notifications.create({
             notification: notify
@@ -28,10 +30,12 @@ router.post("/", async (req, res) => {
 }
 );
 router.delete("/", async (req, res) => {
-    const workplaceName = req.body.workplaceName;
+    const workplaceName = req.body.assignedWorkplace;
+    console.log(workplaceName);
     const findWorkplace = await Assignments.findAll({ where: { assignedWorkplace: workplaceName } });
     if (findWorkplace.length > 0) {
         await Assignments.destroy({ where: { assignedWorkplace: workplaceName } });
+        await Camera.destroy({ where: { workplaceName: workplaceName } });
         res.send("Deleted");
     } else {
         res.send("Workplace Not found");
