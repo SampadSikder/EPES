@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import asyncio
 from pydantic import BaseModel
+from decimal import Decimal
 
 workplace_stats = {}
 
@@ -96,12 +97,12 @@ async def kpiLogging(assignments):
     for assignment in assignments:
         if assignment['monitoringStatus']:
             for kpi in results:
-                if kpi == 1:
+                if kpi == 0:
                     print("Currently working")
                     updateQuery="Update Assignments set workingStatus=:workingStatus where assignedWorkplace=:assignedWorkplace"
                     values={"workingStatus":True, "assignedWorkplace":assignment['assignedWorkplace']}
                     await database.execute(query=updateQuery, values=values)
-                    workplace_stats[assignment['assignedWorkplace']]['total_kpi'] += kpi
+                    workplace_stats[assignment['assignedWorkplace']]['total_kpi'] += 1
                     print(workplace_stats[assignment['assignedWorkplace']]['total_kpi'])
                 else:
                     print("Not working")
@@ -122,11 +123,12 @@ async def kpiLogging(assignments):
                 if worker.workerID == assignment['WorkerWorkerID']:
                     old_kpi=worker.kpi
                     print(old_kpi)
+                    
                     if old_kpi!=None:
                         #new_kpi=old_kpi*0.3+(total_kpi/(total_time/100))*0.7 #assign weights
-                        new_kpi=old_kpi+(total_kpi/(total_time/100))
+                        new_kpi=old_kpi+Decimal((total_kpi/(total_time/100)))
                     else:
-                        new_kpi=(total_kpi/(total_time/100))
+                        new_kpi = Decimal(total_kpi) / (total_time / 100)
                     updateQuery="Update Workers set kpi=:kpi where workerID=:workerID"
                     values={"kpi":new_kpi, "workerID":worker.workerID}
                     await database.execute(query=updateQuery, values=values)

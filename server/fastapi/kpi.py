@@ -90,7 +90,7 @@ async def getKpiScore(assignedWorkplace, database):
   values = {"workplaceName": assignedWorkplace}
   workplace = await database.fetch_one(query, values)
 
-  if workplace:
+  if workplace and workplace.cameraURL:
     convertStreamToFrame(assignedWorkplace, workplace)
   else:
     convertVideoToFrame(assignedWorkplace)
