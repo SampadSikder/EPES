@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         kpi: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DECIMAL(10, 4),
             allowNull: true
         },
         assignedWorkplace: {

@@ -13,7 +13,7 @@ const makeLeaderboard = (workers) => {
     }
     try {
         workerList.sort(function (a, b) {
-            return a.kpi - b.kpi;
+            return b.kpi - a.kpi;
         });
         return workerList;
     } catch (err) {
