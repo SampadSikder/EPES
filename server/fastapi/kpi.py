@@ -76,6 +76,8 @@ def getKPIFromFrame(assignedWorkplace):
 def convertStreamToFrame(assignedWorkplace, workplace):
     try:
       filePath="../../workplaceVideos/"+str(assignedWorkplace)
+      if not os.path.exists(filePath):
+        os.makedirs(filePath)
       videoFile = None
       vcap = cv2.VideoCapture(workplace['cameraURL'])
       imageFilePath = os.path.join(filePath, "img.jpg")

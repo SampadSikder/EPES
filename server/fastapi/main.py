@@ -45,7 +45,7 @@ async def startMonitoring():
         query = "SELECT WorkerWorkerID, assignedWorkplace, monitoringStatus FROM Assignments"
         assignments = await database.fetch_all(query)
         await kpiLogging(assignments)
-        await asyncio.sleep(1)  #5 second sleep
+        await asyncio.sleep(5)  #5 second sleep
 
 
 # def kpiLogging(assignments):
@@ -128,7 +128,7 @@ async def kpiLogging(assignments):
                         #new_kpi=old_kpi*0.3+(total_kpi/(total_time/100))*0.7 #assign weights
                         new_kpi=old_kpi+Decimal((total_kpi/(total_time/100)))
                     else:
-                        new_kpi = Decimal(total_kpi) / (total_time / 100)
+                        new_kpi = Decimal(total_kpi) / Decimal(total_time / 100)
                     updateQuery="Update Workers set kpi=:kpi where workerID=:workerID"
                     values={"kpi":new_kpi, "workerID":worker.workerID}
                     await database.execute(query=updateQuery, values=values)
