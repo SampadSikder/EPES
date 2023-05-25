@@ -98,10 +98,16 @@ async def kpiLogging(assignments):
             for kpi in results:
                 if kpi == 1:
                     print("Currently working")
+                    updateQuery="Update Assignments set workingStatus=:workingStatus where assignedWorkplace=:assignedWorkplace"
+                    values={"workingStatus":True, "assignedWorkplace":assignment['assignedWorkplace']}
+                    await database.execute(query=updateQuery, values=values)
                     workplace_stats[assignment['assignedWorkplace']]['total_kpi'] += kpi
                     print(workplace_stats[assignment['assignedWorkplace']]['total_kpi'])
                 else:
                     print("Not working")
+                    updateQuery="Update Assignments set workingStatus=:workingStatus where assignedWorkplace=:assignedWorkplace"
+                    values={"workingStatus":False, "assignedWorkplace":assignment['assignedWorkplace']}
+                    await database.execute(query=updateQuery, values=values)
         elif assignment['assignedWorkplace'] in workplace_stats:
             print("calculating kpi")
             total_time = (datetime.now() - workplace_stats[assignment['assignedWorkplace']]['start_time']).total_seconds()

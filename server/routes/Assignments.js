@@ -53,7 +53,9 @@ router.put("/:id", async (req, res) => {
     const worker = await Workers.findByPk(workplace.workerID);
     if (worker) {
         try {
+            await Assignments.update({ ManagerManagerID: null, WorkerWorkerID: null }, { where: {WorkerWorkerID: workplace.workerID } });
             await Assignments.update({ ManagerManagerID: workplace.ManagerManagerID, WorkerWorkerID: workplace.WorkerWorkerID }, { where: { assignedWorkplace: workplace.assignedWorkplace } });
+            
             console.log(workplace.assignedWorkplace);
             await Workers.update({ assignedWorkplace: workplace.assignedWorkplace }, { where: { workerID: workplace.WorkerWorkerID } });
             const notification = `Worker ${workplace.WorkerWorkerID} assigned to ${workplace.assignedWorkplace}`;
@@ -111,11 +113,16 @@ router.get("/assignments", async (req, res) => {
 
 router.put("/startMonitoring/:id", async (req, res) => {
     const monitoringStatus = req.body.monitoringStatus;
+    let workingStatus=true;
+    if(!monitoringStatus){
+        workingStatus=false;
+    }
     const workerId = req.params.id;
     console.log(workerId);
     console.log(monitoringStatus);
     await Assignments.update({
-        monitoringStatus: monitoringStatus
+        monitoringStatus: monitoringStatus,
+        workingStatus: workingStatus,
     }, { where: { WorkerWorkerID: workerId } });
 
     if (monitoringStatus === false) {
