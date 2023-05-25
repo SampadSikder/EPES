@@ -114,6 +114,7 @@ router.get("/assignments", async (req, res) => {
 router.put("/startMonitoring/:id", async (req, res) => {
     const monitoringStatus = req.body.monitoringStatus;
     let workingStatus=true;
+    console.log(monitoringStatus, workingStatus);
     if(!monitoringStatus){
         workingStatus=false;
     }
