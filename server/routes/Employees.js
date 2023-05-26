@@ -30,9 +30,10 @@ router.post("/", async (req, res) => {
 router.delete("/", async (req, res) => {
     const employeeID = req.body.employeeID;
 
-    const ifEmployeeExist = await Employees.findOne({ where: { employeeID: employeeID } });
 
-    if (ifEmployeeExist) {
+    const ifEmployeeExist = await Employees.findOne({ where: { employeeID: employeeID } });
+    const ifWorkerExist = await Workers.findOne({ where: { workerID: employeeID } });
+    if (ifEmployeeExist || ifWorkerExist) {
         await Employees.destroy({ where: { employeeID: employeeID } });
         await Workers.destroy({ where: { workerID: employeeID } });
         await Supervisors.destroy({ where: { supervisorID: employeeID } });
